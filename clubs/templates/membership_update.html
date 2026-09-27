@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Membership{% endblock %}
+
+{% block content %}
+
+<div class="member-form-container">
+
+    <div class="member-form-heading">
+        <h2>Update Membership</h2>
+        <br>
+        <h3>{{ member.name }}</h3>
+    </div>
+
+    <form method="POST" class="member-form">
+        {% csrf_token %}
+        {% for membership in memberships %}
+            <div class="membership-update-box">
+                <p>
+                    <strong>{{ membership.club.club_name }}</strong>
+                </p>
+                <div class="member-field">
+                    <label>Position</label>
+                    <select name="role_{{ membership.membership_id }}">
+                        <option value="Member"
+                            {% if membership.role == "Member" %}selected{% endif %}>
+                            Member
+                        </option>
+                        <option value="President"
+                            {% if membership.role == "President" %}selected{% endif %}>
+                            President
+                        </option>
+                        <option value="Secretary"
+                            {% if membership.role == "Secretary" %}selected{% endif %}>
+                            Secretary
+                        </option>
+                        <option value="Treasurer"
+                            {% if membership.role == "Treasurer" %}selected{% endif %}>
+                            Treasurer
+                        </option>
+                    </select>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="membership-update-box">
+            <div class="member-field">
+                <label>Add Club</label>
+                <select name="new_club">
+                    <option value="">
+                        -- Select Club --
+                    </option>
+                    {% for club in clubs %}
+                        <option value="{{ club.club_id }}">
+                            {{ club.club_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <p>
+                New clubs will be added with the position
+                <strong>Member</strong>.
+            </p>
+        </div>
+        <div class="member-form-buttons">
+            <button type="submit" class="member-save-btn">
+                Save Changes
+            </button>
+            <a
+                href="{% url 'member_list' %}"
+                class="member-cancel-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

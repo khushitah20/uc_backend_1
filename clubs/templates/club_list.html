@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Clubs {% endblock %}
+
+{% block content %}
+    <h2>All Clubs</h2>
+    <div class="add-club-container">
+        <a href="{% url 'create_club' %}" class="club-btn">Add New Club</a>
+    </div>
+    <div class="search-container">
+        <form method="get" action="{% url 'club_list' %}">
+            <input type="text" name="search" placeholder="Search by Club Name..." value="{{ search_query }}">
+            <button type="submit">Search</button>
+            <a href="{% url 'club_list' %}">Clear</a>
+        </form>
+    </div>
+    <div>
+        <table>
+            <th>Club ID</th>
+            <th>Club Name</th>
+            <th>Domain</th>
+            <th>Description</th>
+            <th>Members</th>
+            <th></th>
+            {% for club in clubs %}
+                <tr>
+                    <td>{{ club.club_id }} </td>
+                    <td>{{ club.club_name }}</td>
+                    <td>{{ club.domain }}</td>
+                    <td>{{ club.description }}</td>
+                    <td>
+                        <a
+                            href="{% url 'club_members' club.club_id %}"
+                            class="club-btn"
+                        >
+                            View Members
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'update_club' club.club_id %}" class="club-btn">Update</a>
+                        <a href="{% url 'delete_club' club.club_id %}" class="club-btn delete-link">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+{% endblock %}

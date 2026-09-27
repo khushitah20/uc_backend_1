@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} Members {% endblock %}
+{% block content %}
+
+<h2>All Members</h2>
+<div class="add-club-container">
+    <a href="{% url 'create_member' %}" class="club-btn">Add New Member</a>
+</div>
+
+<div class="search-container">
+    <form method="get" action="{% url 'member_list' %}">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by Member Name..."
+            value="{{ search_query }}">
+        <button type="submit">Search</button>
+        <a href="{% url 'member_list' %}">Clear</a>
+    </form>
+</div>
+
+<div>
+    <table>
+        <th>Member ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Clubs Enrolled</th>
+        <th>Member Actions</th>
+        <th>Membership Actions</th>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.member_id }}</td>
+            <td>{{ member.name }}</td>
+            <td>{{ member.email }}</td>
+            <td>
+                {% for membership in member.membership_set.all %}
+                    {{ membership.club.club_name }} - {{ membership.role }}
+                    {% if not forloop.last %}
+                        <br>
+                    {% endif %}
+                {% empty %}
+                    No clubs enrolled
+                {% endfor %}
+            </td>
+            <td>
+                <a
+                    href="{% url 'update_member' member.member_id %}"
+                    class="club-btn">
+                    Update
+                </a>
+                <a
+                    href="{% url 'delete_member' member.member_id %}"
+                    class="club-btn delete-link">
+                    Delete
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'update_member_memberships' member.member_id %}" class="club-btn">
+                    Update Membership
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

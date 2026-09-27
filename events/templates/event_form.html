@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if event %}
+        Update Event
+    {% else %}
+        Create Event
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="event-form-container">
+
+    <div class="event-form-heading">
+
+        <h2>
+            {% if event %}
+                Update Event
+            {% else %}
+                Create Event
+            {% endif %}
+        </h2>
+
+    </div>
+
+
+    <form method="POST" class="event-form">
+
+        {% csrf_token %}
+
+
+        <div class="event-field">
+            {{ form.event_name.label_tag }}
+            {{ form.event_name }}
+            {{ form.event_name.errors }}
+        </div>
+
+
+        <div class="event-field">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+
+
+        <div class="event-field">
+            {{ form.date.label_tag }}
+            {{ form.date }}
+            {{ form.date.errors }}
+        </div>
+
+
+        <div class="event-field">
+            {{ form.venue.label_tag }}
+            {{ form.venue }}
+            {{ form.venue.errors }}
+        </div>
+
+
+        <div class="event-field">
+            {{ form.club.label_tag }}
+            {{ form.club }}
+            {{ form.club.errors }}
+        </div>
+
+
+        <div class="event-field">
+            {{ form.status.label_tag }}
+            {{ form.status }}
+            {{ form.status.errors }}
+        </div>
+
+
+        <div class="event-form-buttons">
+
+            <button type="submit" class="event-save-btn">
+
+                {% if event %}
+                    Update Event
+                {% else %}
+                    Create Event
+                {% endif %}
+
+            </button>
+
+            <a
+                href="{% url 'event_list' %}"
+                class="event-cancel-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if member %}
+        Update Member
+    {% else %}
+        Add New Member
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="member-form-container">
+
+    <div class="member-form-heading">
+        <h2>
+            {% if member %}
+                Update Member
+            {% else %}
+                Add New Member
+            {% endif %}
+        </h2>
+    </div>
+
+    <form method="POST" class="member-form">
+        {% csrf_token %}
+        <div class="member-field">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+        <div class="member-field">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="member-field">
+            {{ form.role.label_tag }}
+            {{ form.role }}
+            {{ form.role.errors }}
+        </div>
+        <div class="member-field member-clubs-field">
+            {{ form.clubs.label_tag }}
+            <div class="club-checkboxes">
+                {% for checkbox in form.clubs %}
+                    <div class="club-checkbox">
+                        {{ checkbox.tag }}
+                        <label for="{{ checkbox.id_for_label }}">
+                            {{ checkbox.choice_label }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            {{ form.clubs.errors }}
+        </div>
+
+        <div class="member-form-buttons">
+
+            <button type="submit" class="member-save-btn">
+                {% if member %}
+                    Update Member
+                {% else %}
+                    Save Member
+                {% endif %}
+            </button>
+
+            <a href="{% url 'member_list' %}" class="member-cancel-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

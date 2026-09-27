@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if club %}
+        Update Club
+    {% else %}
+        Add New Club
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div id="main-club-form">
+    <div class="form-heading">
+        <h2>
+            {% if club %}
+                Update Club
+            {% else %}
+                Add New Club
+            {% endif %}
+        </h2>
+    </div>
+
+    <form method="POST" class="club-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-buttons">
+            <button type="submit">
+                {% if club %}
+                    Update Club
+                {% else %}
+                    Save Club
+                {% endif %}
+            </button>
+            <a href="{% url 'club_list' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
